@@ -1,0 +1,1 @@
+include ':app', ':multivariate-compiler', ':multivariate-annotations', ':multivariate-lib'

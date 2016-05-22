@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     @TextTest(testName = "createTests", method = "setText", values = {"hello", "hi"})
     TextView textView;
 
-    @ResourceTest(testName = "createTests", method = "setText", values = {R.string.app_name, R.string.hello})
+    @ResourceTest(testName = "createTests2", method = "setText", values = {R.string.app_name, R.string.hello})
     TextView textView2;
 
     @Override
@@ -24,6 +24,6 @@ public class MainActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.text);
         textView2 = (TextView) findViewById(R.id.text2);
 
-        MultivariateTester.with(this).run("createTests");
+        MultivariateTester.with(this).run("createTests", "createTests2");
     }
 }

@@ -8,6 +8,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
@@ -57,6 +59,7 @@ public class MultivariateProcessor extends AbstractProcessor {
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> set = Sets.newLinkedHashSet();
         set.add(TextTest.class.getCanonicalName());
+        set.add(ResourceTest.class.getCanonicalName());
 
         return set;
     }
@@ -119,8 +122,15 @@ public class MultivariateProcessor extends AbstractProcessor {
 
         validateTestData(datas);
 
+        MethodSpec numberOfMethods = MethodSpec.methodBuilder("getNumberOfTests") //
+                .addModifiers(Modifier.PUBLIC) //
+                .addAnnotation(Override.class) //
+                .returns(int.class) //
+                .addCode("return numberOfTests;\n").build();
+
         TypeSpec.Builder builder = TypeSpec.classBuilder(datas[0].getFullClassName()) //
-                .superclass(ClassName.bestGuess(ABSTRACT_TEST));
+                .superclass(ClassName.bestGuess(ABSTRACT_TEST))
+                .addField(int.class, "numberOfTests", Modifier.PRIVATE);
 
         //we make the constructor here
         MethodSpec.Builder constructorBuilder = MethodSpec.constructorBuilder();
@@ -131,6 +141,7 @@ public class MultivariateProcessor extends AbstractProcessor {
             constructorBuilder.addCode(String.format("this.%s = %s;\n", fieldName, fieldName));
             builder.addField(type, fieldName);
         }
+        constructorBuilder.addCode(String.format("numberOfTests = %d;\n", datas[0].getValues().length));
         MethodSpec constructor = constructorBuilder.addModifiers(Modifier.PUBLIC).build();
         builder.addMethod(constructor);
 
@@ -154,7 +165,7 @@ public class MultivariateProcessor extends AbstractProcessor {
         }
         spec.addCode(codeBuilder.build());
 
-        TypeSpec typeSpec = builder.addMethod(spec.build()).addModifiers(Modifier.PUBLIC).build();
+        TypeSpec typeSpec = builder.addMethod(spec.build()).addMethod(numberOfMethods).addModifiers(Modifier.PUBLIC).build();
 
         JavaFile javaFile = JavaFile.builder(datas[0].getPackageName(), typeSpec)
                 .build();

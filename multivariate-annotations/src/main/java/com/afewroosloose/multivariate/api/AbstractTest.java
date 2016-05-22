@@ -5,4 +5,5 @@ package com.afewroosloose.multivariate.api;
  */
 public abstract class AbstractTest {
     public abstract void run(int run);
+    public abstract int getNumberOfTests();
 }

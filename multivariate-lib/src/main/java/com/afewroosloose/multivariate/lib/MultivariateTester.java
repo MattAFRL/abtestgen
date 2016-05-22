@@ -1,8 +1,11 @@
 package com.afewroosloose.multivariate.lib;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.afewroosloose.multivariate.api.AbstractTest;
+import com.afewroosloose.multivariate.api.annotations.ResourceTest;
 import com.afewroosloose.multivariate.api.annotations.TextTest;
 
 import java.lang.annotation.Annotation;
@@ -34,33 +37,61 @@ public class MultivariateTester {
         return new MultivariateTester(activity);
     }
 
+    public void run(String... testNames) {
+        for (String name : testNames) {
+            run(name);
+        }
+    }
+
     public void run(String testName) {
         String packageName = activity.getPackageName();
         String className = activity.getClass().getSimpleName();
 
+        int selection = 0;
+        int number = 0;
+
+        SharedPreferences prefs = activity.getSharedPreferences(className, Context.MODE_PRIVATE);
+        if (prefs.contains(testName)) {
+            selection = prefs.getInt(testName, 0);
+        } else {
+            selection = (int)(Math.random() * Integer.MAX_VALUE);
+            prefs.edit().putInt(testName, selection).apply();
+        }
         try {
             Class<? extends AbstractTest> testClass = (Class<? extends AbstractTest>) Class.forName(String.format("%s.%s$$%s", packageName, className, testName));
             Field[] fields = testClass.getDeclaredFields();
             List<Object> objects = new ArrayList<>();
             List<Class> classes = new LinkedList<>();
             for (Field field : fields) {
-                Field f = activity.getClass().getField(field.getName());
-                if (f.isSynthetic()) {
+                if (Modifier.isPrivate(field.getModifiers()) || field.isSynthetic()) {
+                    continue; // it's the number of tests field or is synthetic;
+                }
+                Field f = activity.getClass().getDeclaredField(field.getName());
+                if (!verifyFieldRequired(f, testName)) {
                     continue;
                 }
+                f.setAccessible(true);
                 objects.add(f.get(activity));
                 classes.add(f.getType());
             }
-
             Constructor constructor = testClass.getConstructor(classes.toArray(new Class[0]));
             AbstractTest test = (AbstractTest) constructor.newInstance(objects.toArray());
-            test.run(1);
+            test.run(selection % test.getNumberOfTests());
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
     }
 
-    private void runTextTest(TextTest annotation, String packageName, String className) {
-
+    private boolean verifyFieldRequired(Field f, String testName) {
+        Annotation[] annotations = f.getDeclaredAnnotations();
+        for (Annotation annotation : annotations) {
+            if (annotation.annotationType() == TextTest.class) {
+                return testName.equals(((TextTest) annotation).testName());
+            }
+            else if (annotation.annotationType() == ResourceTest.class) {
+                return testName.equals(((ResourceTest) annotation).testName());
+            }
+        }
+        return false;
     }
 }

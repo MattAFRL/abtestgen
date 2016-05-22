@@ -8,7 +8,6 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
-import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
@@ -18,7 +17,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;
 
-import javax.annotation.Resource;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;

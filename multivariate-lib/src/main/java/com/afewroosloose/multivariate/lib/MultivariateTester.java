@@ -58,7 +58,8 @@ public class MultivariateTester {
             prefs.edit().putInt(testName, selection).apply();
         }
         try {
-            Class<? extends AbstractTest> testClass = (Class<? extends AbstractTest>) Class.forName(String.format("%s.%s$$%s", packageName, className, testName));
+            Class<? extends AbstractTest> testClass =
+                    (Class<? extends AbstractTest>) Class.forName(String.format("%s.%s$$%s", packageName, className, testName));
             Field[] fields = testClass.getDeclaredFields();
             List<Object> objects = new ArrayList<>();
             List<Class> classes = new LinkedList<>();
@@ -67,9 +68,6 @@ public class MultivariateTester {
                     continue; // it's the number of tests field or is synthetic;
                 }
                 Field f = activity.getClass().getDeclaredField(field.getName());
-                if (!verifyFieldRequired(f, testName)) {
-                    continue;
-                }
                 f.setAccessible(true);
                 objects.add(f.get(activity));
                 classes.add(f.getType());
@@ -81,17 +79,17 @@ public class MultivariateTester {
             throw new IllegalStateException(e);
         }
     }
-
-    private boolean verifyFieldRequired(Field f, String testName) {
-        Annotation[] annotations = f.getDeclaredAnnotations();
-        for (Annotation annotation : annotations) {
-            if (annotation.annotationType() == TextTest.class) {
-                return testName.equals(((TextTest) annotation).testName());
-            }
-            else if (annotation.annotationType() == ResourceTest.class) {
-                return testName.equals(((ResourceTest) annotation).testName());
-            }
-        }
-        return false;
-    }
+//
+//    private boolean verifyFieldRequired(Field f, String testName) {
+//        Annotation[] annotations = f.getDeclaredAnnotations();
+//        for (Annotation annotation : annotations) {
+//            if (annotation.annotationType() == TextTest.class) {
+//                return testName.equals(((TextTest) annotation).testName());
+//            }
+//            else if (annotation.annotationType() == ResourceTest.class) {
+//                return testName.equals(((ResourceTest) annotation).testName());
+//            }
+//        }
+//        return false;
+//    }
 }

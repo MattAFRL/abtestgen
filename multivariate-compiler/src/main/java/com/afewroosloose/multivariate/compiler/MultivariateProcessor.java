@@ -6,6 +6,7 @@ import com.google.auto.service.AutoService;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -37,6 +38,7 @@ import javax.tools.Diagnostic;
 public class MultivariateProcessor extends AbstractProcessor {
 
     private static final String VIEW = "android.view.View";
+    private static final String ABSTRACT_TEST = "com.afewroosloose.multivariate.api.AbstractTest";
 
     private static Elements elementUtils;
     private static Filer filer;
@@ -68,6 +70,7 @@ public class MultivariateProcessor extends AbstractProcessor {
     private void generateViewTests(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         Multimap<String, ViewTestData> viewTestMap = MultimapBuilder.linkedHashKeys().arrayListValues().build();
         getTextTests(roundEnv, viewTestMap);
+        getResTests(roundEnv, viewTestMap);
         //noinspection ToArrayCallWithZeroLengthArrayArgument
         String[] keys = viewTestMap.keys().elementSet().toArray(new String[0]);
         for (String key : keys) {
@@ -116,7 +119,8 @@ public class MultivariateProcessor extends AbstractProcessor {
 
         validateTestData(datas);
 
-        TypeSpec.Builder builder = TypeSpec.classBuilder(datas[0].getFullClassName());
+        TypeSpec.Builder builder = TypeSpec.classBuilder(datas[0].getFullClassName()) //
+                .superclass(ClassName.bestGuess(ABSTRACT_TEST));
 
         //we make the constructor here
         MethodSpec.Builder constructorBuilder = MethodSpec.constructorBuilder();
@@ -125,14 +129,15 @@ public class MultivariateProcessor extends AbstractProcessor {
             String fieldName = data.getElementAttachedTo().getSimpleName().toString();
             constructorBuilder.addParameter(type, fieldName);
             constructorBuilder.addCode(String.format("this.%s = %s;\n", fieldName, fieldName));
-            builder.addField(type, fieldName, Modifier.PRIVATE);
+            builder.addField(type, fieldName);
         }
         MethodSpec constructor = constructorBuilder.addModifiers(Modifier.PUBLIC).build();
         builder.addMethod(constructor);
 
-        MethodSpec.Builder spec = MethodSpec.methodBuilder("test") //
+        MethodSpec.Builder spec = MethodSpec.methodBuilder("run") //
                 .addModifiers(Modifier.PUBLIC) //
-                .addParameter(Integer.class, "testToChoose");
+                .addAnnotation(Override.class) //
+                .addParameter(int.class, "testToChoose");
 
         int numberOfPossibilities = datas[0].getValues().length;
         CodeBlock.Builder codeBuilder = CodeBlock.builder();
@@ -168,6 +173,10 @@ public class MultivariateProcessor extends AbstractProcessor {
             if (data.getValues().length != numberOfParams) {
                 messager.printMessage(Diagnostic.Kind.ERROR, "Each element in a test must have the same number of values!");
                 throw new RuntimeException("Each element in a test must have the same number of values!");
+            }
+            if (data.getElementAttachedTo().getModifiers().contains(Modifier.PRIVATE)) {
+                messager.printMessage(Diagnostic.Kind.ERROR, "You can't annotate a private field!");
+                throw new RuntimeException("You can't annotate a private field!");
             }
         }
     }

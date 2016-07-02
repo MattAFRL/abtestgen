@@ -1,6 +1,7 @@
 package com.afewroosloose.multivariate;
 
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.afewroosloose.multivariate.api.DefinedTest;
 import com.afewroosloose.multivariate.api.annotations.TextTest;
 import com.afewroosloose.multivariate.lib.MultivariateTester;
 
+@SuppressWarnings("ResourceType")
 public class MainActivity extends AppCompatActivity {
 
   private static final String TAG = MainActivity.class.getSimpleName();

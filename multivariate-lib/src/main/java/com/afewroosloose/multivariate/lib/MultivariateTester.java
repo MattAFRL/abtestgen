@@ -3,6 +3,7 @@ package com.afewroosloose.multivariate.lib;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import com.afewroosloose.multivariate.api.AbstractTest;
 import com.afewroosloose.multivariate.api.DefinedTest;
 import java.lang.reflect.Constructor;
@@ -79,7 +80,12 @@ public final class MultivariateTester {
         selection = prefs.getInt(testName, 0);
       } else {
         selection = picker.choose(test.getNumberOfTests());
-        prefs.edit().putInt(testName, selection).apply();
+        SharedPreferences.Editor ed = prefs.edit().putInt(testName, selection);
+        if (Build.VERSION.SDK_INT > 8) {
+          ed.apply();
+        } else {
+          ed.commit();
+        }
       }
       test.run(selection);
     } catch (Exception e) {
@@ -97,7 +103,12 @@ public final class MultivariateTester {
       selection = prefs.getInt(testName, 0);
     } else {
       selection = picker.choose(tests.length);
-      prefs.edit().putInt(testName, selection).apply();
+      SharedPreferences.Editor ed = prefs.edit().putInt(testName, selection);
+      if (Build.VERSION.SDK_INT > 8) {
+        ed.apply();
+      } else {
+        ed.commit();
+      }
     }
     tests[selection].run();
     return this;

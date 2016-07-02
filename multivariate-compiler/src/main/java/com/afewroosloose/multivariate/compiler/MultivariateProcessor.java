@@ -6,6 +6,7 @@ import com.google.auto.service.AutoService;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
@@ -127,8 +128,13 @@ public class MultivariateProcessor extends AbstractProcessor {
 
     validateTestData(testDataArray);
 
+    AnnotationSpec annotationSpec = AnnotationSpec.builder(SuppressWarnings.class)
+        .addMember("value", "\"ResourceType\"")
+        .build();
+
     TypeSpec.Builder abstractTestClassBuilder =
         TypeSpec.classBuilder(testDataArray[0].getFullClassName()) //
+            .addAnnotation(annotationSpec)
             .superclass(ClassName.bestGuess(ABSTRACT_TEST))
             .addField(int.class, "numberOfTests", Modifier.PRIVATE);
 

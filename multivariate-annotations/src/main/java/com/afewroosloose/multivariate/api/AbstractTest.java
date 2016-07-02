@@ -1,9 +1,10 @@
 package com.afewroosloose.multivariate.api;
 
 /**
- * Created by matt on 22/05/2016.
+ * This is for internal use. We use this to generate tests using the annotation processor.
  */
 public abstract class AbstractTest {
-    public abstract void run(int run);
-    public abstract int getNumberOfTests();
+  public abstract void run(int run);
+
+  public abstract int getNumberOfTests();
 }

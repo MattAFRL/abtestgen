@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Multivariate.iml" filepath="$PROJECT_DIR$/Multivariate.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/multivariate-annotations/multivariate-annotations.iml" filepath="$PROJECT_DIR$/multivariate-annotations/multivariate-annotations.iml" />
       <module fileurl="file://$PROJECT_DIR$/multivariate-annotations/multivariate-api.iml" filepath="$PROJECT_DIR$/multivariate-annotations/multivariate-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/multivariate-compiler/multivariate-compiler.iml" filepath="$PROJECT_DIR$/multivariate-compiler/multivariate-compiler.iml" />
       <module fileurl="file://$PROJECT_DIR$/multivariate-lib/multivariate-lib.iml" filepath="$PROJECT_DIR$/multivariate-lib/multivariate-lib.iml" />

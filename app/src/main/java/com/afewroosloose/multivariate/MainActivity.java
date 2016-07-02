@@ -1,29 +1,45 @@
 package com.afewroosloose.multivariate;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.afewroosloose.multivariate.api.annotations.ResourceTest;
+import com.afewroosloose.multivariate.api.DefinedTest;
 import com.afewroosloose.multivariate.api.annotations.TextTest;
 import com.afewroosloose.multivariate.lib.MultivariateTester;
 
 public class MainActivity extends AppCompatActivity {
 
-    @TextTest(testName = "createTests", method = "setText", values = {"hello", "hi"})
-    TextView textView;
+  private static final String TAG = MainActivity.class.getSimpleName();
 
-    @ResourceTest(testName = "createTests2", method = "setText", values = {R.string.app_name, R.string.hello})
-    TextView textView2;
+  @TextTest(testName = "createTests", method = "setText", values = { "hello", "hi" }) TextView
+      textView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+  @ResourceTest(testName = "createTests", method = "setText",
+                values = { R.string.world, R.string.globe }) TextView textView2;
 
-        textView = (TextView) findViewById(R.id.text);
-        textView2 = (TextView) findViewById(R.id.text2);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-        MultivariateTester.with(this).run("createTests", "createTests2");
-    }
+    textView = (TextView) findViewById(R.id.text);
+    textView2 = (TextView) findViewById(R.id.text2);
+
+    MultivariateTester.with(this).run("createTests");
+
+    MultivariateTester.with(this).run("complexTests", new DefinedTest() {
+      @Override
+      public void run() {
+        Toast.makeText(MainActivity.this, "These are the contents of a more complex test", Toast.LENGTH_LONG).show();
+      }
+    }, new DefinedTest() {
+      @Override
+      public void run() {
+        Toast.makeText(MainActivity.this, "These are the contents of another more complex test", Toast.LENGTH_SHORT).show();
+      }
+    });
+  }
 }

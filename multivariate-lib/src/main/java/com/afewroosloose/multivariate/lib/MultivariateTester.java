@@ -3,93 +3,103 @@ package com.afewroosloose.multivariate.lib;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import com.afewroosloose.multivariate.api.AbstractTest;
-import com.afewroosloose.multivariate.api.annotations.ResourceTest;
-import com.afewroosloose.multivariate.api.annotations.TextTest;
-
-import java.lang.annotation.Annotation;
+import com.afewroosloose.multivariate.api.DefinedTest;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by matt on 22/05/2016.
  */
-public class MultivariateTester {
+public final class MultivariateTester {
 
-    private final Activity activity;
+  private final Activity activity;
+  private final TestPicker picker;
 
-    private MultivariateTester() {
-        throw new RuntimeException("Can't call zero-argument constructor");
+  private MultivariateTester() {
+    throw new RuntimeException("Can't call zero-argument constructor");
+  }
+
+  private MultivariateTester(Activity activity) {
+    this.activity = activity;
+    this.picker = new SplitPicker();
+  }
+
+  private MultivariateTester(Activity activity, TestPicker picker) {
+    this.activity = activity;
+    this.picker = picker;
+  }
+
+  public static MultivariateTester with(Activity activity) {
+    return new MultivariateTester(activity);
+  }
+
+  public static MultivariateTester with(Activity activity, TestPicker picker) {
+    return new MultivariateTester(activity, picker);
+  }
+
+  public MultivariateTester run(String... testNames) {
+    for (String name : testNames) {
+      run(name);
     }
+    return this;
+  }
 
-    private MultivariateTester(Activity activity) {
-        this.activity = activity;
-    }
+  public MultivariateTester run(String testName) {
+    String packageName = activity.getPackageName();
+    String className = activity.getClass().getSimpleName();
 
-    public static MultivariateTester with(Activity activity) {
-        return new MultivariateTester(activity);
-    }
+    int selection;
 
-    public void run(String... testNames) {
-        for (String name : testNames) {
-            run(name);
+    SharedPreferences prefs = activity.getSharedPreferences(className, Context.MODE_PRIVATE);
+
+    try {
+      Class<?> testClass =
+          Class.forName(String.format("%s.%s$$%s", packageName, className, testName));
+      Field[] fields = testClass.getDeclaredFields();
+      List<Object> objects = new ArrayList<>();
+      List<Class> classes = new ArrayList<>();
+      for (Field field : fields) {
+        if (Modifier.isPrivate(field.getModifiers()) || field.isSynthetic()) {
+          continue; // numberOfTests/synthetic
         }
+        Field f = activity.getClass().getDeclaredField(field.getName());
+        f.setAccessible(true);
+        objects.add(f.get(activity));
+        classes.add(f.getType());
+      }
+      Constructor constructor =
+          testClass.getConstructor(classes.toArray(new Class[classes.size()]));
+      AbstractTest test = (AbstractTest) constructor.newInstance(objects.toArray());
+      if (prefs.contains(testName)) {
+        selection = prefs.getInt(testName, 0);
+      } else {
+        selection = picker.choose(test.getNumberOfTests());
+        prefs.edit().putInt(testName, selection).apply();
+      }
+      test.run(selection);
+    } catch (Exception e) {
+      throw new IllegalStateException(e);
     }
+    return this;
+  }
 
-    public void run(String testName) {
-        String packageName = activity.getPackageName();
-        String className = activity.getClass().getSimpleName();
+  public MultivariateTester run(String testName, DefinedTest... tests) {
+    int selection;
 
-        int selection = 0;
-        int number = 0;
-
-        SharedPreferences prefs = activity.getSharedPreferences(className, Context.MODE_PRIVATE);
-        if (prefs.contains(testName)) {
-            selection = prefs.getInt(testName, 0);
-        } else {
-            selection = (int)(Math.random() * Integer.MAX_VALUE);
-            prefs.edit().putInt(testName, selection).apply();
-        }
-        try {
-            Class<? extends AbstractTest> testClass =
-                    (Class<? extends AbstractTest>) Class.forName(String.format("%s.%s$$%s", packageName, className, testName));
-            Field[] fields = testClass.getDeclaredFields();
-            List<Object> objects = new ArrayList<>();
-            List<Class> classes = new LinkedList<>();
-            for (Field field : fields) {
-                if (Modifier.isPrivate(field.getModifiers()) || field.isSynthetic()) {
-                    continue; // it's the number of tests field or is synthetic;
-                }
-                Field f = activity.getClass().getDeclaredField(field.getName());
-                f.setAccessible(true);
-                objects.add(f.get(activity));
-                classes.add(f.getType());
-            }
-            Constructor constructor = testClass.getConstructor(classes.toArray(new Class[0]));
-            AbstractTest test = (AbstractTest) constructor.newInstance(objects.toArray());
-            test.run(selection % test.getNumberOfTests());
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
+    SharedPreferences prefs =
+        activity.getSharedPreferences(activity.getClass().getSimpleName(), Context.MODE_PRIVATE);
+    if (prefs.contains(testName)) {
+      selection = prefs.getInt(testName, 0);
+    } else {
+      selection = picker.choose(tests.length);
+      prefs.edit().putInt(testName, selection).apply();
     }
-//
-//    private boolean verifyFieldRequired(Field f, String testName) {
-//        Annotation[] annotations = f.getDeclaredAnnotations();
-//        for (Annotation annotation : annotations) {
-//            if (annotation.annotationType() == TextTest.class) {
-//                return testName.equals(((TextTest) annotation).testName());
-//            }
-//            else if (annotation.annotationType() == ResourceTest.class) {
-//                return testName.equals(((ResourceTest) annotation).testName());
-//            }
-//        }
-//        return false;
-//    }
+    tests[selection].run();
+    return this;
+  }
 }

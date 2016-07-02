@@ -1,4 +1,6 @@
 <resources>
-    <string name="app_name">Multivariate</string>
-    <string name="hello">hello</string>
+  <string name="app_name">Multivariate</string>
+  <string name="hello">hello</string>
+  <string name="world">world</string>
+  <string name="globe">globe</string>
 </resources>

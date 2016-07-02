@@ -9,7 +9,9 @@ import java.lang.annotation.Target;
 @Target(value = ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TextTest {
-    String testName();
-    String method() default "setText";
-    String[] values() default {};
+  String testName();
+
+  String method() default "setText";
+
+  String[] values() default {};
 }

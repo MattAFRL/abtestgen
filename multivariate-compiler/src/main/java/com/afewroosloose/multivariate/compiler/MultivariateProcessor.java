@@ -129,7 +129,7 @@ public class MultivariateProcessor extends AbstractProcessor {
     validateTestData(testDataArray);
 
     AnnotationSpec annotationSpec = AnnotationSpec.builder(SuppressWarnings.class)
-        .addMember("value", "\"ResourceType\"")
+        .addMember("value", "\"ResourceType, unused\"")
         .build();
 
     TypeSpec.Builder abstractTestClassBuilder =

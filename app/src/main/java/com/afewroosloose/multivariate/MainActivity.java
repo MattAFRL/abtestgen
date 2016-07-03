@@ -1,13 +1,11 @@
 package com.afewroosloose.multivariate;
 
 import android.os.Bundle;
-import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.afewroosloose.multivariate.api.annotations.ResourceTest;
 import com.afewroosloose.multivariate.api.DefinedTest;
+import com.afewroosloose.multivariate.api.annotations.ResourceTest;
 import com.afewroosloose.multivariate.api.annotations.TextTest;
 import com.afewroosloose.multivariate.lib.MultivariateTester;
 
@@ -30,17 +28,17 @@ public class MainActivity extends AppCompatActivity {
     textView = (TextView) findViewById(R.id.text);
     textView2 = (TextView) findViewById(R.id.text2);
 
-    MultivariateTester.with(this).run("createTests");
-
-    MultivariateTester.with(this).run("complexTests", new DefinedTest() {
+    MultivariateTester.with(this).run("createTests").run("complexTests", new DefinedTest() {
       @Override
       public void run() {
-        Toast.makeText(MainActivity.this, "These are the contents of a more complex test", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "These are the contents of a more complex test",
+            Toast.LENGTH_LONG).show();
       }
     }, new DefinedTest() {
       @Override
       public void run() {
-        Toast.makeText(MainActivity.this, "These are the contents of another more complex test", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "These are the contents of another more complex test",
+            Toast.LENGTH_SHORT).show();
       }
     });
   }

@@ -14,11 +14,12 @@ public class MainActivity extends AppCompatActivity {
 
   private static final String TAG = MainActivity.class.getSimpleName();
 
-  @TextTest(testName = "createTests", method = "setText", values = { "hello", "hi" }) TextView
-      textView;
+  @TextTest(testName = "createTests", method = "setText", values = { "hello", "hi" })
+  TextView textView;
 
   @ResourceTest(testName = "createTests", method = "setText",
-                values = { R.string.world, R.string.globe }) TextView textView2;
+                values = { R.string.world, R.string.globe })
+  TextView textView2;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

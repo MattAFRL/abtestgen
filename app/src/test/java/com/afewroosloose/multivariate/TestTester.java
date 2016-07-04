@@ -25,6 +25,7 @@ public class TestTester {
     MainActivity$$createTests test = new MainActivity$$createTests(activity.textView, activity.textView2);
 
     assertTrue(test.getNumberOfTests() == 2);
+    
     assertTrue(test.textView != null);
     assertTrue(test.textView2 != null);
 

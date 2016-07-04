@@ -39,9 +39,9 @@ To use, you'll want to add the following to your build.gradle:
 	
 and add the following dependencies three:
 
-    apt 'com.github.imperial-crystalline-recursion:multivariate-compiler:v0.1'`
-    compile 'com.github.imperial-crystalline-recursion:multivariate-lib:v0.1'`
-    compile 'com.github.imperial-crystalline-recursion:multivariate-annotations:v0.1'`
+    apt 'com.github.imperial-crystalline-recursion:multivariate-compiler:v0.1'
+    compile 'com.github.imperial-crystalline-recursion:multivariate-lib:v0.1'
+    compile 'com.github.imperial-crystalline-recursion:multivariate-annotations:v0.1'
 
 You will also require the `gradle-android-apt` plugin. 
 

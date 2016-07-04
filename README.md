@@ -25,6 +25,8 @@ And that will generate a class which will create two tests that will cover those
 
 There's also a `DefinedTest` class which allows you to define more complex tests that may not be possible to generate with the annotation processor.
 
+By default, tests will be weighted to have an equal chance to be selected. However, by extending the `TestPicker` class you can weight the tests however you like. 
+
 ##To use
 To use, you'll want to add the following to your build.gradle:
 

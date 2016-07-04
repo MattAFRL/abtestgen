@@ -27,22 +27,4 @@ There's also a `DefinedTest` class which allows you to define more complex tests
 
 By default, tests will be weighted to have an equal chance to be selected. However, by extending the `TestPicker` class you can weight the tests however you like. 
 
-##To use
-To use, you'll want to add the following to your build.gradle:
-
-	allprojects {
-		repositories {
-			...
-			maven { url "https://jitpack.io" }
-		}
-	}
-	
-and add the following dependencies three:
-
-    apt 'com.github.imperial-crystalline-recursion:multivariate-compiler:v0.1'
-    compile 'com.github.imperial-crystalline-recursion:multivariate-lib:v0.1'
-    compile 'com.github.imperial-crystalline-recursion:multivariate-annotations:v0.1'
-
-You will also require the `gradle-android-apt` plugin. 
-
 

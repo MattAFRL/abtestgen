@@ -23,7 +23,7 @@ You can also cover multiple fields in the same test, as follows:
 And that will generate a class which will create two tests that will cover those three TextViews. 
 
 
-There's also a `DefinedTest` class which allows you to define more complex tests which may not be possible to generate with the annotation processor.
+There's also a `DefinedTest` class which allows you to define more complex tests that may not be possible to generate with the annotation processor.
 
 ##To use
 To use, you'll want to add the following to your build.gradle:

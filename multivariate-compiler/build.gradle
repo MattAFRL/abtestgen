@@ -1,4 +1,7 @@
 apply plugin: 'java'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.github.imperial-crystalline-recursion'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7

@@ -1,10 +1,19 @@
 apply plugin: 'java'
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven'
 
 group='com.github.imperial-crystalline-recursion'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
+
+buildscript {
+  repositories {
+    jcenter()
+  }
+}
+repositories {
+  jcenter()
+}
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -12,3 +21,30 @@ dependencies {
   compile project(path: ':multivariate-annotations')
   compile 'com.squareup:javapoet:1.7.0'
 }
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+artifacts {
+  archives sourcesJar
+}
+
+Task task = task writePom {
+  pom {
+    project {
+      inceptionYear '2016'
+      version '0.1'
+      licenses {
+        license {
+          name 'The Apache Software License, Version 2.0'
+          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          distribution 'repo'
+        }
+      }
+    }
+  }.writeTo("$buildDir/pom/pom.xml")
+}
+
+task.mustRunAfter(assemble)

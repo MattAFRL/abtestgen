@@ -26,3 +26,32 @@ dependencies {
   testCompile 'junit:junit:4.12'
   compile project(path: ':multivariate-annotations')
 }
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+  from android.sourceSets.main.java.srcDirs
+  classifier = 'sources'
+}
+
+artifacts {
+  archives sourcesJar
+}
+
+Task task = task writePom {
+  pom {
+    project {
+      inceptionYear '2016'
+      version '0.1'
+      licenses {
+        license {
+          name 'The Apache Software License, Version 2.0'
+          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          distribution 'repo'
+        }
+      }
+    }
+  }.writeTo("$buildDir/pom/pom.xml")
+}
+
+task.mustRunAfter(assemble)
+

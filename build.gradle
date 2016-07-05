@@ -3,6 +3,9 @@
 buildscript {
   repositories {
     jcenter()
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
   }
   dependencies {
     classpath 'com.android.tools.build:gradle:2.1.0'
@@ -22,4 +25,9 @@ allprojects {
 
 task clean(type: Delete) {
   delete rootProject.buildDir
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.10'
+  distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
 }

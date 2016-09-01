@@ -27,4 +27,5 @@ There's also a `DefinedTest` class which allows you to define more complex tests
 
 By default, tests will be weighted to have an equal chance to be selected. However, by extending the `TestPicker` class you can weight the tests however you like. 
 
+![Build status](https://circleci.com/gh/imperial-crystalline-recursion/multivariate.svg?style=shield&circle-token=02adbc662080afafe062fdd8ee467cafa703014b "Build status")
 

@@ -1,4 +1,4 @@
-# A Multivariate Testing Library for Android...
+# An AB Testing Library for Android...
 ...that makes writing simple tests simpler by using annotations. 
 
 ##How it works 
@@ -27,5 +27,27 @@ There's also a `DefinedTest` class which allows you to define more complex tests
 
 By default, tests will be weighted to have an equal chance to be selected. However, by extending the `TestPicker` class you can weight the tests however you like. 
 
+##To obtain...
+You'll want to include
+
+    maven { url "https://jitpack.io" }
+    
+in either your `allprojects.repositories`  or your module's `repositories` section. Whatever you like!
+
+You will also need the APT plugin, so you will want to put this into your root build.gradle's `buildscript.dependencies`:
+
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+
+and apply this plugin to your modules:
+
+    apply plugin: 'com.neenbedankt.android-apt'
+
+Then, you'll want to bang these into your module's build.gradle:
+
+    apt 'com.github.imperial-crystalline-recursion.multivariate:multivariate-compiler:0.2'
+    compile 'com.github.imperial-crystalline-recursion.multivariate:multivariate-annotations:0.2'
+    compile 'com.github.imperial-crystalline-recursion.multivariate:multivariate-lib:0.2'
+
+##Build status
 ![Build status](https://circleci.com/gh/imperial-crystalline-recursion/multivariate.svg?style=shield&circle-token=02adbc662080afafe062fdd8ee467cafa703014b "Build status")
 

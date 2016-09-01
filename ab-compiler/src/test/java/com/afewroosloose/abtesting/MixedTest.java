@@ -16,8 +16,8 @@ public class MixedTest {
   String sourceClass = //
       "package test;" //
           + "\n" //
-          + "\nimport ResourceTest;" //
-          + "\nimport TextTest;" //
+          + "\nimport com.afewroosloose.abtesting.api.annotations.ResourceTest;" //
+          + "\nimport com.afewroosloose.abtesting.api.annotations.TextTest;" //
           + "\n" //
           + "\npublic class Test {" //
           + "\n  @TextTest(testName = \"Test1\", values = {\"A\", \"Z\"})" //

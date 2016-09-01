@@ -220,6 +220,9 @@ public class TextTest {
         .and()
         .generatesSources(genObj3);
 
+    System.out.println(sourceObj.getName());
+    System.out.println(genObj.getName());
+
     try {
       assertAbout(javaSource()).that(errorObj)
           .processedWith(new MultivariateProcessor())

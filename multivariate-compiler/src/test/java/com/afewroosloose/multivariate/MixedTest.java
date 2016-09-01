@@ -2,6 +2,9 @@ package com.afewroosloose.multivariate;
 
 import com.afewroosloose.multivariate.compiler.MultivariateProcessor;
 import com.google.testing.compile.JavaFileObjects;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import javax.tools.JavaFileObject;
 import org.junit.Test;
 
@@ -78,14 +81,13 @@ public class MixedTest {
       + "\n}"; //
 
   @Test
-  public void testResourceTest() {
+  public void testResourceTest() throws Exception {
 
     JavaFileObject sourceObj =
         JavaFileObjects.forSourceString("test.Test", sourceClass);
 
     JavaFileObject genObj =
-        JavaFileObjects.forSourceString("test.Test$$Test1",
-            generatedClass);
+        JavaFileObjects.forSourceString("test.Test$$Test1", generatedClass);
 
     assertAbout(javaSource()).that(sourceObj)
         .processedWith(new MultivariateProcessor())

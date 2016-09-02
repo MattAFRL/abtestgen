@@ -14,6 +14,7 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Set;
@@ -144,17 +145,16 @@ public class ABTestProcessor extends AbstractProcessor {
         .returns(int.class) //
         .addCode("return numberOfTests;\n").build();
 
+    for (ViewTestData data : viewTestDatas) {
+      TypeName type = TypeName.get(data.getElementAttachedTo().asType());
+      String fieldName = data.getElementAttachedTo().getSimpleName().toString();
+      abstractTestClassBuilder.addField(type, fieldName);
+    }
+
     abstractTestClassBuilder.addMethod(numberOfTests);
 
     //we make the constructor here
     MethodSpec.Builder constructorBuilder = MethodSpec.constructorBuilder();
-    for (ViewTestData data : testDataArray) {
-      TypeName type = TypeName.get(data.getElementAttachedTo().asType());
-      String fieldName = data.getElementAttachedTo().getSimpleName().toString();
-      constructorBuilder.addParameter(type, fieldName);
-      constructorBuilder.addCode(String.format("this.%s = %s;\n", fieldName, fieldName));
-      abstractTestClassBuilder.addField(type, fieldName);
-    }
     constructorBuilder.addCode(String.format(Locale.getDefault(), "numberOfTests = %d;\n",
         testDataArray[0].getValues().length));
     MethodSpec constructor = constructorBuilder.addModifiers(Modifier.PUBLIC).build();

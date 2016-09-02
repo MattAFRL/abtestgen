@@ -52,9 +52,7 @@ public class MixedTest {
       + "\n" //
       + "\n  Test.Dummy bye;" //
       + "\n" //
-      + "\n  public Test$$Test1(Test.Dummy hello, Test.Dummy bye) {" //
-      + "\n    this.hello = hello;" //
-      + "\n    this.bye = bye;" //
+      + "\n  public Test$$Test1() {" //
       + "\n    numberOfTests = 2;" //
       + "\n  }" //
       + "\n" //

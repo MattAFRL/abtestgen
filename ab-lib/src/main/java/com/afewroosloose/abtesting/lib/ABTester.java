@@ -9,8 +9,6 @@ import com.afewroosloose.abtesting.api.DefinedTest;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by matt on 22/05/2016.
@@ -77,11 +75,8 @@ public final class ABTester {
   public ABTester run(String testName) {
     String packageName = context.getPackageName();
     String className;
-    if (pointOfReference == null) {
-      className = context.getClass().getSimpleName();
-    } else {
-      className = pointOfReference.getClass().getSimpleName();
-    }
+    Object srcObject = pointOfReference == null ? context : pointOfReference;
+    className = srcObject.getClass().getSimpleName();
 
     int selection;
 
@@ -91,21 +86,17 @@ public final class ABTester {
       Class<?> testClass =
           Class.forName(String.format("%s.%s$$%s", packageName, className, testName));
       Field[] fields = testClass.getDeclaredFields();
-      List<Object> objects = new ArrayList<>();
-      List<Class> classes = new ArrayList<>();
-      for (Field field : fields) {
-        if (Modifier.isPrivate(field.getModifiers()) || field.isSynthetic()) {
-          continue; // numberOfTests/synthetic
+      Constructor constructor = testClass.getConstructor();
+      AbstractTest test = (AbstractTest) constructor.newInstance();
+      for (Field f : fields) { // this is the hackiest crap ever but APPARENTLY fields don't get returned in the order in which they're declared.
+        if (Modifier.isPrivate(f.getModifiers()) || f.isSynthetic()) {
+          continue;
         }
-        Field f = pointOfReference == null ? context.getClass().getDeclaredField(field.getName())
-            : pointOfReference.getClass().getDeclaredField(field.getName());
+        Field srcField = srcObject.getClass().getDeclaredField(f.getName());
+        srcField.setAccessible(true);
         f.setAccessible(true);
-        objects.add(f.get(pointOfReference == null ? context : pointOfReference));
-        classes.add(f.getType());
+        f.set(test, srcField.get(srcObject));
       }
-      Constructor constructor =
-          testClass.getConstructor(classes.toArray(new Class[classes.size()]));
-      AbstractTest test = (AbstractTest) constructor.newInstance(objects.toArray());
       if (prefs.contains(testName)) {
         selection = prefs.getInt(testName, 0);
       } else {

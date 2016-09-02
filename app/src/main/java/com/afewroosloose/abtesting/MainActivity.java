@@ -42,5 +42,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.LENGTH_SHORT).show();
       }
     });
+
+    TesterObj obj = new TesterObj(this);
   }
 }

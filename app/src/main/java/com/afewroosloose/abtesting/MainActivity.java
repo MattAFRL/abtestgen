@@ -7,8 +7,7 @@ import android.widget.Toast;
 import com.afewroosloose.abtesting.api.DefinedTest;
 import com.afewroosloose.abtesting.api.annotations.ResourceTest;
 import com.afewroosloose.abtesting.api.annotations.TextTest;
-import com.afewroosloose.abtesting.lib.MultivariateTester;
-import com.afewroosloose.abtesting.R;
+import com.afewroosloose.abtesting.lib.ABTester;
 
 @SuppressWarnings("ResourceType")
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     textView = (TextView) findViewById(R.id.text);
     textView2 = (TextView) findViewById(R.id.text2);
 
-    MultivariateTester.with(this).run("createTests").run("complexTests", new DefinedTest() {
+    ABTester.with(this).run("createTests").run("complexTests", new DefinedTest() {
       @Override
       public void run() {
         Toast.makeText(MainActivity.this, "These are the contents of a more complex test",

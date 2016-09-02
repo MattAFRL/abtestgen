@@ -15,41 +15,41 @@ import java.util.List;
 /**
  * Created by matt on 22/05/2016.
  */
-public final class MultivariateTester {
+public final class ABTester {
 
   private final Activity activity;
   private final TestPicker picker;
 
-  private MultivariateTester() {
+  private ABTester() {
     throw new RuntimeException("Can't call zero-argument constructor");
   }
 
-  private MultivariateTester(Activity activity) {
+  private ABTester(Activity activity) {
     this.activity = activity;
     this.picker = new SplitPicker();
   }
 
-  private MultivariateTester(Activity activity, TestPicker picker) {
+  private ABTester(Activity activity, TestPicker picker) {
     this.activity = activity;
     this.picker = picker;
   }
 
-  public static MultivariateTester with(Activity activity) {
-    return new MultivariateTester(activity);
+  public static ABTester with(Activity activity) {
+    return new ABTester(activity);
   }
 
-  public static MultivariateTester with(Activity activity, TestPicker picker) {
-    return new MultivariateTester(activity, picker);
+  public static ABTester with(Activity activity, TestPicker picker) {
+    return new ABTester(activity, picker);
   }
 
-  public MultivariateTester run(String... testNames) {
+  public ABTester run(String... testNames) {
     for (String name : testNames) {
       run(name);
     }
     return this;
   }
 
-  public MultivariateTester run(String testName) {
+  public ABTester run(String testName) {
     String packageName = activity.getPackageName();
     String className = activity.getClass().getSimpleName();
 
@@ -93,7 +93,7 @@ public final class MultivariateTester {
     return this;
   }
 
-  public MultivariateTester run(String testName, DefinedTest... tests) {
+  public ABTester run(String testName, DefinedTest... tests) {
     int selection;
 
     SharedPreferences prefs =

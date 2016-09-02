@@ -36,7 +36,7 @@ import javax.tools.Diagnostic;
 
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
-public class MultivariateProcessor extends AbstractProcessor {
+public class ABTestProcessor extends AbstractProcessor {
 
   private static final String ABSTRACT_TEST = "com.afewroosloose.abtesting.api.AbstractTest";
 

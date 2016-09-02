@@ -1,6 +1,6 @@
 package com.afewroosloose.abtesting;
 
-import com.afewroosloose.abtesting.compiler.MultivariateProcessor;
+import com.afewroosloose.abtesting.compiler.ABTestProcessor;
 import com.google.testing.compile.JavaFileObjects;
 import javax.tools.JavaFileObject;
 import org.junit.Test;
@@ -87,7 +87,7 @@ public class MixedTest {
         JavaFileObjects.forSourceString("test/Test$$Test1", generatedClass);
 
     assertAbout(javaSource()).that(sourceObj)
-        .processedWith(new MultivariateProcessor())
+        .processedWith(new ABTestProcessor())
         .compilesWithoutError()
         .and()
         .generatesSources(genObj);

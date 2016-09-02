@@ -1,6 +1,6 @@
 package com.afewroosloose.abtesting;
 
-import com.afewroosloose.abtesting.compiler.MultivariateProcessor;
+import com.afewroosloose.abtesting.compiler.ABTestProcessor;
 import com.google.testing.compile.JavaFileObjects;
 import javax.tools.JavaFileObject;
 import org.junit.Assert;
@@ -193,7 +193,7 @@ public class ResourceTest {
             generatedClass);
 
     assertAbout(javaSource()).that(sourceObj)
-        .processedWith(new MultivariateProcessor())
+        .processedWith(new ABTestProcessor())
         .compilesWithoutError()
         .and()
         .generatesSources(genObj);
@@ -210,13 +210,13 @@ public class ResourceTest {
             generatedClass3);
 
     assertAbout(javaSource()).that(sourceObj)
-        .processedWith(new MultivariateProcessor())
+        .processedWith(new ABTestProcessor())
         .compilesWithoutError()
         .and()
         .generatesSources(genObj);
 
     assertAbout(javaSource()).that(sourceObj2)
-        .processedWith(new MultivariateProcessor())
+        .processedWith(new ABTestProcessor())
         .compilesWithoutError()
         .and()
         .generatesSources(genObj2)
@@ -228,7 +228,7 @@ public class ResourceTest {
 
     try {
       assertAbout(javaSource()).that(errorObj)
-          .processedWith(new MultivariateProcessor())
+          .processedWith(new ABTestProcessor())
           .compilesWithoutError();
     } catch (RuntimeException ex) {
       Assert.assertTrue(

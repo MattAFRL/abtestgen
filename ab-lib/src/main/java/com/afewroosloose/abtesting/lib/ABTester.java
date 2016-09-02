@@ -30,7 +30,7 @@ public final class ABTester {
     this.picker = new SplitPicker();
   }
 
-  private ABTester(Activity context, TestPicker picker) {
+  private ABTester(Context context, TestPicker picker) {
     this.context = context;
     this.picker = picker;
   }
@@ -43,6 +43,14 @@ public final class ABTester {
     return new ABTester(activity, picker);
   }
 
+  public static ABTester with(Context context, Object pointOfReference) {
+    return new ABTester(context).from(pointOfReference);
+  }
+
+  public static ABTester with(Context context, Object pointOfReference, TestPicker testPicker) {
+    return new ABTester(context, testPicker).from(pointOfReference);
+  }
+
   /**
    * Specifies an object to use as a point of reference for running an AB test. Typically you'd
    * just
@@ -52,6 +60,9 @@ public final class ABTester {
    * @return the ABTester, point-of-reference Object included.
    */
   public ABTester from(Object fromObj) {
+    if (pointOfReference != null) {
+      throw new IllegalStateException("Can only supply one point of reference!");
+    }
     pointOfReference = fromObj;
     return this;
   }

@@ -1,4 +1,4 @@
-# An AB Testing Library for Android...
+# An A/B Testing Library for Android...
 ...that makes writing simple tests simpler by using annotations. 
 
 ##How it works 
@@ -7,7 +7,7 @@ Currently you can use two different annotations: `@TextTest` and `@ResourceTest`
     @TextTest(testName="firstTest", method="setText", values={"hello", "world"})
     TextView helloTextView;
     
-which will automatically generate a class which you can run by calling `MultivariateTester.with(context).run("firstTest");`
+which will automatically generate a class which you can run by calling `ABTester.with(context).run("firstTest");`
 
 You can also cover multiple fields in the same test, as follows: 
 
@@ -42,12 +42,12 @@ and apply this plugin to your modules:
 
     apply plugin: 'com.neenbedankt.android-apt'
 
-Then, you'll want to bang these into your module's build.gradle:
+Then, you'll want to bang these bad boys into your module's build.gradle:
 
-    apt 'com.github.imperial-crystalline-recursion.multivariate:multivariate-compiler:0.2'
-    compile 'com.github.imperial-crystalline-recursion.multivariate:multivariate-annotations:0.2'
-    compile 'com.github.imperial-crystalline-recursion.multivariate:multivariate-lib:0.2'
+    apt 'com.github.imperial-crystalline-recursion.abtestgen:ab-compiler:0.2'
+    compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-annotations:0.2'
+    compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-lib:0.2'
 
 ##Build status
-![Build status](https://circleci.com/gh/imperial-crystalline-recursion/multivariate.svg?style=shield&circle-token=02adbc662080afafe062fdd8ee467cafa703014b "Build status")
+![Build status](https://circleci.com/gh/imperial-crystalline-recursion/abtestgen.svg?style=shield&circle-token=02adbc662080afafe062fdd8ee467cafa703014b "Build status")
 

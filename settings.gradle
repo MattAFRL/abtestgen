@@ -1,1 +1,1 @@
-include ':app', ':multivariate-compiler', ':multivariate-annotations', ':multivariate-lib'
+include ':app', ':ab-compiler', ':ab-annotations', ':ab-lib'

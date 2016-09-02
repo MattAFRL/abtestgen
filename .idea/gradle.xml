@@ -8,19 +8,19 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/ab-annotations" />
+            <option value="$PROJECT_DIR$/ab-compiler" />
+            <option value="$PROJECT_DIR$/ab-lib" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/multivariate-annotations" />
-            <option value="$PROJECT_DIR$/multivariate-compiler" />
-            <option value="$PROJECT_DIR$/multivariate-lib" />
           </set>
         </option>
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/ab-annotations" />
+            <option value="$PROJECT_DIR$/ab-compiler" />
+            <option value="$PROJECT_DIR$/ab-lib" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/multivariate-annotations" />
-            <option value="$PROJECT_DIR$/multivariate-compiler" />
-            <option value="$PROJECT_DIR$/multivariate-lib" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -17,20 +17,21 @@ import java.util.List;
  */
 public final class ABTester {
 
-  private final Activity activity;
+  private final Context context;
   private final TestPicker picker;
+  private Object pointOfReference;
 
   private ABTester() {
     throw new RuntimeException("Can't call zero-argument constructor");
   }
 
-  private ABTester(Activity activity) {
-    this.activity = activity;
+  private ABTester(Context context) {
+    this.context = context;
     this.picker = new SplitPicker();
   }
 
-  private ABTester(Activity activity, TestPicker picker) {
-    this.activity = activity;
+  private ABTester(Activity context, TestPicker picker) {
+    this.context = context;
     this.picker = picker;
   }
 
@@ -42,6 +43,19 @@ public final class ABTester {
     return new ABTester(activity, picker);
   }
 
+  /**
+   * Specifies an object to use as a point of reference for running an AB test. Typically you'd
+   * just
+   * pass in <b>this</b> from inside whichever class you're doing the tests in.
+   *
+   * @param fromObj the object we're running the test from. We use this to grab the class name.
+   * @return the ABTester, point-of-reference Object included.
+   */
+  public ABTester from(Object fromObj) {
+    pointOfReference = fromObj;
+    return this;
+  }
+
   public ABTester run(String... testNames) {
     for (String name : testNames) {
       run(name);
@@ -50,12 +64,17 @@ public final class ABTester {
   }
 
   public ABTester run(String testName) {
-    String packageName = activity.getPackageName();
-    String className = activity.getClass().getSimpleName();
+    String packageName = context.getPackageName();
+    String className;
+    if (pointOfReference == null) {
+      className = context.getClass().getSimpleName();
+    } else {
+      className = pointOfReference.getClass().getSimpleName();
+    }
 
     int selection;
 
-    SharedPreferences prefs = activity.getSharedPreferences(className, Context.MODE_PRIVATE);
+    SharedPreferences prefs = context.getSharedPreferences(className, Context.MODE_PRIVATE);
 
     try {
       Class<?> testClass =
@@ -67,9 +86,10 @@ public final class ABTester {
         if (Modifier.isPrivate(field.getModifiers()) || field.isSynthetic()) {
           continue; // numberOfTests/synthetic
         }
-        Field f = activity.getClass().getDeclaredField(field.getName());
+        Field f = pointOfReference == null ? context.getClass().getDeclaredField(field.getName())
+            : pointOfReference.getClass().getDeclaredField(field.getName());
         f.setAccessible(true);
-        objects.add(f.get(activity));
+        objects.add(f.get(pointOfReference == null ? context : pointOfReference));
         classes.add(f.getType());
       }
       Constructor constructor =
@@ -96,8 +116,9 @@ public final class ABTester {
   public ABTester run(String testName, DefinedTest... tests) {
     int selection;
 
-    SharedPreferences prefs =
-        activity.getSharedPreferences(activity.getClass().getSimpleName(), Context.MODE_PRIVATE);
+    SharedPreferences prefs = context.getSharedPreferences(
+        pointOfReference == null ? context.getClass().getSimpleName()
+            : pointOfReference.getClass().getSimpleName(), Context.MODE_PRIVATE);
     if (prefs.contains(testName)) {
       selection = prefs.getInt(testName, 0);
     } else {

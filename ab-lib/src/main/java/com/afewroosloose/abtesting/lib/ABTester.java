@@ -73,9 +73,9 @@ public final class ABTester {
   }
 
   public ABTester run(String testName) {
-    String packageName = context.getPackageName();
-    String className;
     Object srcObject = pointOfReference == null ? context : pointOfReference;
+    String packageName = srcObject.getClass().getPackage().getName();
+    String className;
     className = srcObject.getClass().getSimpleName();
 
     int selection;

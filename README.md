@@ -38,15 +38,15 @@ You will also need the APT plugin, so you will want to put this into your root b
 
     classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 
-and apply this plugin to your modules:
+and apply this plugin to the modules you're doing your tests in:
 
     apply plugin: 'com.neenbedankt.android-apt'
 
-Then, you'll want to bang these bad boys into your module's build.gradle:
+Then, you'll want to bang these bad boys into your `build.gradle`s' dependencies:
 
-    apt 'com.github.imperial-crystalline-recursion.abtestgen:ab-compiler:0.2'
-    compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-annotations:0.2'
-    compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-lib:0.2'
+    apt 'com.github.imperial-crystalline-recursion.abtestgen:ab-compiler:0.3'
+    compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-annotations:0.3'
+    compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-lib:0.3'
 
 ##Build status
 ![Build status](https://circleci.com/gh/imperial-crystalline-recursion/abtestgen.svg?style=shield&circle-token=02adbc662080afafe062fdd8ee467cafa703014b "Build status")

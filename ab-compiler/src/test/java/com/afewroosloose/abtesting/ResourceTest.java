@@ -42,8 +42,7 @@ public class ResourceTest {
           + "\n" //
           + "\n  Test.Dummy hello;" //
           + "\n" //
-          + "\n  public Test$$Test1(Test.Dummy hello) {"//
-          + "\n    this.hello = hello;" //
+          + "\n  public Test$$Test1() {"//
           + "\n    numberOfTests = 2;" //
           + "\n  }" //
           + "\n" //
@@ -102,9 +101,7 @@ public class ResourceTest {
           + "\n" //
           + "\n  Test.Dummy bye;" //
           + "\n" //
-          + "\n  public Test$$Test1(Test.Dummy hello, Test.Dummy bye) {" //
-          + "\n    this.hello = hello;" //
-          + "\n    this.bye = bye;" //
+          + "\n  public Test$$Test1() {" //
           + "\n    numberOfTests = 2;" //
           + "\n  }" //
           + "\n" //
@@ -140,8 +137,7 @@ public class ResourceTest {
           + "\n" //
           + "\n  Test.Dummy what;" //
           + "\n" //
-          + "\n  public Test$$Test2(Test.Dummy what) {"//
-          + "\n    this.what = what;" //
+          + "\n  public Test$$Test2() {"//
           + "\n    numberOfTests = 2;" //
           + "\n  }" //
           + "\n" //

@@ -148,7 +148,7 @@ public class ABTestProcessor extends AbstractProcessor {
     for (ViewTestData data : viewTestDatas) {
       TypeName type = TypeName.get(data.getElementAttachedTo().asType());
       String fieldName = data.getElementAttachedTo().getSimpleName().toString();
-      abstractTestClassBuilder.addField(type, fieldName, Modifier.PROTECTED);
+      abstractTestClassBuilder.addField(type, fieldName);
     }
 
     abstractTestClassBuilder.addMethod(numberOfTests);

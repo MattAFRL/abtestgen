@@ -40,7 +40,7 @@ public class MixedTest {
   String generatedClass = //
       "package test;" //
       + "\n" //
-      + "\nimport AbstractTest;" //
+      + "\nimport com.afewroosloose.abtesting.api.AbstractTest;" //
       + "\nimport java.lang.Override;" //
       + "\nimport java.lang.SuppressWarnings;" //
       + "\n" //
@@ -84,7 +84,7 @@ public class MixedTest {
         JavaFileObjects.forSourceString("test.Test", sourceClass);
 
     JavaFileObject genObj =
-        JavaFileObjects.forSourceString("test.Test$$Test1", generatedClass);
+        JavaFileObjects.forSourceString("test/Test$$Test1", generatedClass);
 
     assertAbout(javaSource()).that(sourceObj)
         .processedWith(new MultivariateProcessor())

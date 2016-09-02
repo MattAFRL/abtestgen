@@ -17,7 +17,7 @@ public class TextTest {
   String sourceClass = //
       "package test;" //
           + "\n" //
-          + "\nimport TextTest;" //
+          + "\nimport com.afewroosloose.abtesting.api.annotations.TextTest;" //
           + "\n" //
           + "\npublic class Test {" //
           + "\n  @TextTest(testName = \"Test1\", values = {\"hi\", \"hello\"})"  //
@@ -32,7 +32,7 @@ public class TextTest {
   String generatedClass = //
       "package test;" //
           + "\n"//
-          + "\nimport AbstractTest;" //
+          + "\nimport com.afewroosloose.abtesting.api.AbstractTest;" //
           + "\nimport java.lang.Override;"//
           + "\nimport java.lang.SuppressWarnings;" //
           + "\n"//
@@ -68,7 +68,7 @@ public class TextTest {
   String sourceClass2 = //
       "package test;" //
           + "\n" //
-          + "\nimport TextTest;" //
+          + "\nimport com.afewroosloose.abtesting.api.annotations.TextTest;" //
           + "\n" //
           + "\npublic class Test {" //
           + "\n  @TextTest(testName = \"Test1\", values = {\"A\", \"Z\"})" //
@@ -90,7 +90,7 @@ public class TextTest {
   String generatedClass2 = //
       "package test;" //
           + "\n" //
-          + "\nimport AbstractTest;" //
+          + "\nimport com.afewroosloose.abtesting.api.AbstractTest;" //
           + "\nimport java.lang.Override;" //
           + "\nimport java.lang.SuppressWarnings;" //
           + "\n" //
@@ -130,7 +130,7 @@ public class TextTest {
   String generatedClass3 = //
       "package test;" //
           + "\n"//
-          + "\nimport AbstractTest;" //
+          + "\nimport com.afewroosloose.abtesting.api.AbstractTest;" //
           + "\nimport java.lang.Override;"//
           + "\nimport java.lang.SuppressWarnings;" //
           + "\n"//
@@ -166,7 +166,7 @@ public class TextTest {
   String errorSource = //
       "package test;" //
       + "\n" //
-      + "\nimport TextTest;" //
+      + "\nimport com.afewroosloose.abtesting.api.annotations.TextTest;" //
       + "\n" //
       + "\npublic class Test {" //
       + "\n  @TextTest(testName = \"Test1\", values = {\"A\", \"Z\"})" //

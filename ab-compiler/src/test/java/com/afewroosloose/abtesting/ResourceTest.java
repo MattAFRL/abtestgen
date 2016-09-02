@@ -17,7 +17,7 @@ public class ResourceTest {
   String sourceClass = //
       "package test;" //
           + "\n" //
-          + "\nimport ResourceTest;" //
+          + "\nimport com.afewroosloose.abtesting.api.annotations.ResourceTest;" //
           + "\n" //
           + "\npublic class Test {" //
           + "\n  @ResourceTest(method = \"setInt\", testName = \"Test1\", values = {0, 1})"  //
@@ -32,7 +32,7 @@ public class ResourceTest {
   String generatedClass = //
       "package test;" //
           + "\n"//
-          + "\nimport AbstractTest;" //
+          + "\nimport com.afewroosloose.abtesting.api.AbstractTest;" //
           + "\nimport java.lang.Override;"//
           + "\nimport java.lang.SuppressWarnings;" //
           + "\n"//
@@ -68,7 +68,7 @@ public class ResourceTest {
   String sourceClass2 = //
       "package test;" //
           + "\n" //
-          + "\nimport ResourceTest;" //
+          + "\nimport com.afewroosloose.abtesting.api.annotations.ResourceTest;" //
           + "\n" //
           + "\npublic class Test {" //
           + "\n  @ResourceTest(method = \"setInt\", testName = \"Test1\", values = {5, 6})" //
@@ -90,7 +90,7 @@ public class ResourceTest {
   String generatedClass2 = //
       "package test;" //
           + "\n" //
-          + "\nimport AbstractTest;" //
+          + "\nimport com.afewroosloose.abtesting.api.AbstractTest;" //
           + "\nimport java.lang.Override;" //
           + "\nimport java.lang.SuppressWarnings;" //
           + "\n" //
@@ -130,7 +130,7 @@ public class ResourceTest {
   String generatedClass3 = //
       "package test;" //
           + "\n"//
-          + "\nimport AbstractTest;" //
+          + "\nimport com.afewroosloose.abtesting.api.AbstractTest;" //
           + "\nimport java.lang.Override;"//
           + "\nimport java.lang.SuppressWarnings;" //
           + "\n"//
@@ -166,7 +166,7 @@ public class ResourceTest {
   String errorSource = //
       "package test;" //
           + "\n" //
-          + "\nimport ResourceTest;" //
+          + "\nimport com.afewroosloose.abtesting.api.annotations.ResourceTest;" //
           + "\n" //
           + "\npublic class Test {" //
           + "\n  @ResourceTest(method = \"setInt\", testName = \"Test1\", values = {1, 2})" //
@@ -189,7 +189,7 @@ public class ResourceTest {
         JavaFileObjects.forSourceString("test.Test", sourceClass);
 
     JavaFileObject genObj =
-        JavaFileObjects.forSourceString("test.Test$$Test1",
+        JavaFileObjects.forSourceString("test/Test$$Test1",
             generatedClass);
 
     assertAbout(javaSource()).that(sourceObj)
@@ -202,11 +202,11 @@ public class ResourceTest {
         JavaFileObjects.forSourceString("test.Test", sourceClass2);
 
     JavaFileObject genObj2 =
-        JavaFileObjects.forSourceString("test.Test$$Test1",
+        JavaFileObjects.forSourceString("test/Test$$Test1",
             generatedClass2);
 
     JavaFileObject genObj3 =
-        JavaFileObjects.forSourceString("test.Test$$Test2",
+        JavaFileObjects.forSourceString("test/Test$$Test2",
             generatedClass3);
 
     assertAbout(javaSource()).that(sourceObj)

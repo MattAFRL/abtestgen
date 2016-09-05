@@ -4,20 +4,20 @@
 ##How it works 
 Currently you can use two different annotations: `@TextTest` and `@ResourceTest`. `@TextTest` is for plugging Strings into a generated test; `@ResourceTest` is for plugging resource IDs. Example usage may be as follows:
 
-    @TextTest(testName="firstTest", method="setText", values={"hello", "world"})
+    @TextTest(testName="firstTest", method="setText", values={"hello", "howdy"})
     TextView helloTextView;
     
 which will automatically generate a class which you can run by calling `ABTester.with(activity).run("firstTest");`. Or, if you're running the test from outside of an Activity, `ABTester.with()` can also take a second Object parameter where you've put in the annotations. 
 
 You can also cover multiple fields in the same test, as follows: 
 
-    @TextTest(testName="firstTest", method="setText", values={"hello", "world"})
+    @TextTest(testName="firstTest", method="setText", values={"hello", "howdy"})
     TextView helloTextView;
     
     @ResourceTest(testName="firstTest", method="setText", values={R.string.yo, R.string.sup})
     TextView otherTextView;
     
-    @TextTest(testName="firstTest", method="setText", values={"elvis", "lives"})
+    @TextTest(testName="firstTest", method="setText", values={"world", "globe"})
     TextView thirdTextView;
     
 And that will generate a class which will create two tests that will cover those three TextViews. 

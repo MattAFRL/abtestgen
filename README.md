@@ -1,5 +1,7 @@
 # An A/B Testing Library for Android...
-...that makes writing simple tests simpler by using annotations. 
+...that makes writing simple tests simpler by using annotations.
+
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-abtestgen-green.svg?style=true)](https://android-arsenal.com/details/1/4301)
 
 ##How it works 
 Currently you can use two different annotations: `@TextTest` and `@ResourceTest`. `@TextTest` is for plugging Strings into a generated test; `@ResourceTest` is for plugging resource IDs. Example usage may be as follows:

@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     textView = (TextView) findViewById(R.id.text);
     textView2 = (TextView) findViewById(R.id.text2);
 
-    ABTester.with(this).run("createTests").run("complexTests", new DefinedTest() {
+    ABTester.with(this).doNotRetain().run("createTests").run("complexTests", new DefinedTest() {
       @Override
       public void run() {
         Toast.makeText(MainActivity.this, "These are the contents of a more complex test",

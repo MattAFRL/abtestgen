@@ -1,9 +1,9 @@
-package com.afewroosloose.abtesting;
+package com.afewroosloose.abtesting.lib;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 import com.afewroosloose.abtesting.api.annotations.TextTest;
-import com.afewroosloose.abtesting.lib.ABTester;
 
 /**
  * Created by matt on 2/09/2016.
@@ -11,14 +11,15 @@ import com.afewroosloose.abtesting.lib.ABTester;
 public class TesterObj {
   @TextTest(testName = "testytest", values = { "hello", "hola" }) Dummy dummy;
 
-  public TesterObj(Activity activity) {
+  public TesterObj(Context context) {
     dummy = new Dummy();
-    ABTester.with(activity, this).run("testytest");
   }
 
   public static class Dummy {
+    String text = null;
+
     void setText(String text) {
-      Log.d(this.getClass().getSimpleName(), text);
+      this.text = text;
     }
   }
 }

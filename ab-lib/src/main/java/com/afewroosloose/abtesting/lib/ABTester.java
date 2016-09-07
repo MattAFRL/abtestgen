@@ -18,6 +18,7 @@ public final class ABTester {
   private final Context context;
   private final TestPicker picker;
   private Object pointOfReference;
+  private boolean noSave;
 
   private ABTester() {
     throw new RuntimeException("Can't call zero-argument constructor");
@@ -57,7 +58,7 @@ public final class ABTester {
    * @param fromObj the object we're running the test from. We use this to grab the class name.
    * @return the ABTester, point-of-reference Object included.
    */
-  public ABTester from(Object fromObj) {
+  private ABTester from(Object fromObj) {
     if (pointOfReference != null) {
       throw new IllegalStateException("Can only supply one point of reference!");
     }
@@ -86,33 +87,44 @@ public final class ABTester {
       Class<?> testClass =
           Class.forName(String.format("%s.%s$$%s", packageName, className, testName));
       Field[] fields = testClass.getDeclaredFields();
-      Constructor constructor = testClass.getConstructor();
-      AbstractTest test = (AbstractTest) constructor.newInstance();
-      for (Field f : fields) { // this is the hackiest crap ever but APPARENTLY fields don't get returned in the order in which they're declared.
-        if (Modifier.isPrivate(f.getModifiers()) || f.isSynthetic()) {
-          continue;
-        }
-        Field srcField = srcObject.getClass().getDeclaredField(f.getName());
-        srcField.setAccessible(true);
-        f.setAccessible(true);
-        f.set(test, srcField.get(srcObject));
-      }
-      if (prefs.contains(testName)) {
-        selection = prefs.getInt(testName, 0);
-      } else {
-        selection = picker.choose(test.getNumberOfTests());
-        SharedPreferences.Editor ed = prefs.edit().putInt(testName, selection);
-        if (Build.VERSION.SDK_INT > 8) {
-          ed.apply();
-        } else {
-          ed.commit();
-        }
-      }
+      AbstractTest test = (AbstractTest) testClass.getConstructor().newInstance();
+      setFields(srcObject, fields, test);
+      selection = getSelection(testName, prefs, test);
       test.run(selection);
     } catch (Exception e) {
       throw new IllegalStateException(e);
     }
     return this;
+  }
+
+  private void setFields(Object srcObject, Field[] fields, AbstractTest test)
+      throws NoSuchFieldException, IllegalAccessException {
+    for (Field f : fields) { // this is the hackiest crap ever but APPARENTLY fields don't get returned in the order in which they're declared.
+      if (Modifier.isPrivate(f.getModifiers()) || f.isSynthetic()) {
+        continue;
+      }
+      Field srcField = srcObject.getClass().getDeclaredField(f.getName());
+      srcField.setAccessible(true);
+      f.setAccessible(true);
+      f.set(test, srcField.get(srcObject));
+    }
+  }
+
+  private int getSelection(String testName, SharedPreferences prefs, AbstractTest test) {
+    int selection;
+    if (prefs.contains(testName) && !noSave) {
+      selection = prefs.getInt(testName, 0);
+    } else {
+      selection = picker.choose(test.getNumberOfTests());
+      SharedPreferences.Editor ed =
+          noSave ? prefs.edit().remove(testName) : prefs.edit().putInt(testName, selection);
+      if (Build.VERSION.SDK_INT > 8) {
+        ed.apply();
+      } else {
+        ed.commit();
+      }
+    }
+    return selection;
   }
 
   public ABTester run(String testName, DefinedTest... tests) {
@@ -121,11 +133,11 @@ public final class ABTester {
     SharedPreferences prefs = context.getSharedPreferences(
         pointOfReference == null ? context.getClass().getSimpleName()
             : pointOfReference.getClass().getSimpleName(), Context.MODE_PRIVATE);
-    if (prefs.contains(testName)) {
+    if (prefs.contains(testName) && !noSave) {
       selection = prefs.getInt(testName, 0);
     } else {
       selection = picker.choose(tests.length);
-      SharedPreferences.Editor ed = prefs.edit().putInt(testName, selection);
+      SharedPreferences.Editor ed = noSave ? prefs.edit().remove(testName) : prefs.edit().putInt(testName, selection);
       if (Build.VERSION.SDK_INT > 8) {
         ed.apply();
       } else {
@@ -133,6 +145,15 @@ public final class ABTester {
       }
     }
     tests[selection].run();
+    return this;
+  }
+
+  /**
+   * Flags all tests following this call to *not* save their chosen test value.
+   * @return the current ABTester object
+   */
+  public ABTester doNotRetain() {
+    noSave = true;
     return this;
   }
 }

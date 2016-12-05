@@ -18,6 +18,7 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Set;
+import javax.annotation.Generated;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
@@ -40,6 +41,7 @@ import javax.tools.Diagnostic;
 public class ABTestProcessor extends AbstractProcessor {
 
   private static final String ABSTRACT_TEST = "com.afewroosloose.abtesting.api.AbstractTest";
+  private static final String ANNOTATION_PROCESSOR_CLASS = String.format("\"%s\"", ABTestProcessor.class.getName());
 
   private static Elements elementUtils;
   private static Filer filer;
@@ -129,13 +131,18 @@ public class ABTestProcessor extends AbstractProcessor {
 
     validateTestData(testDataArray);
 
-    AnnotationSpec annotationSpec = AnnotationSpec.builder(SuppressWarnings.class)
+    AnnotationSpec suppressWarningsAnnotationSpec = AnnotationSpec.builder(SuppressWarnings.class)
         .addMember("value", "\"ResourceType, unused\"")
+        .build();
+
+    AnnotationSpec generatedAnnotationSpec = AnnotationSpec.builder(Generated.class)
+        .addMember("value", ANNOTATION_PROCESSOR_CLASS)
         .build();
 
     TypeSpec.Builder abstractTestClassBuilder =
         TypeSpec.classBuilder(testDataArray[0].getFullClassName()) //
-            .addAnnotation(annotationSpec)
+            .addAnnotation(generatedAnnotationSpec)
+            .addAnnotation(suppressWarningsAnnotationSpec)
             .superclass(ClassName.bestGuess(ABSTRACT_TEST))
             .addField(int.class, "numberOfTests", Modifier.PRIVATE);
 

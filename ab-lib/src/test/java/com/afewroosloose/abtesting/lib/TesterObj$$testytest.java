@@ -1,7 +1,9 @@
 package com.afewroosloose.abtesting.lib;
 
 import com.afewroosloose.abtesting.api.AbstractTest;
+import javax.annotation.Generated;
 
+@Generated("com.afewroosloose.abtesting.compiler.ABTestProcessor")
 @SuppressWarnings("ResourceType, unused")
 public class TesterObj$$testytest extends AbstractTest {
   private int numberOfTests;

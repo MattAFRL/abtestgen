@@ -27,6 +27,8 @@ dependencies {
   testCompile 'org.mockito:mockito-all:1.10.19'
   testCompile 'org.robolectric:robolectric:3.1.1'
   compile project(path: ':ab-annotations')
+
+  compile 'org.glassfish:javax.annotation:10.0-b28'
 }
 
 // build a jar with source files

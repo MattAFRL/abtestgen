@@ -3,6 +3,6 @@ package com.afewroosloose.abtesting.api;
 /**
  * This interface is used for creating tests to pass into the MultivariateProcessor.
  */
-public interface DefinedTest {
+public interface CustomTest {
   void run();
 }

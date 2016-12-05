@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import com.afewroosloose.abtesting.api.AbstractTest;
-import com.afewroosloose.abtesting.api.DefinedTest;
+import com.afewroosloose.abtesting.api.CustomTest;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -127,7 +127,7 @@ public final class ABTester {
     return selection;
   }
 
-  public ABTester run(String testName, DefinedTest... tests) {
+  public ABTester run(String testName, CustomTest... tests) {
     int selection;
 
     SharedPreferences prefs = context.getSharedPreferences(

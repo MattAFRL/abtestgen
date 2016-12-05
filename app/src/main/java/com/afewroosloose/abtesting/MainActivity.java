@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.afewroosloose.abtesting.api.DefinedTest;
+import com.afewroosloose.abtesting.api.CustomTest;
 import com.afewroosloose.abtesting.api.annotations.ResourceTest;
 import com.afewroosloose.abtesting.api.annotations.TextTest;
 import com.afewroosloose.abtesting.lib.ABTester;
@@ -29,13 +29,13 @@ public class MainActivity extends AppCompatActivity {
     textView = (TextView) findViewById(R.id.text);
     textView2 = (TextView) findViewById(R.id.text2);
 
-    ABTester.with(this).doNotRetain().run("createTests").run("complexTests", new DefinedTest() {
+    ABTester.with(this).doNotRetain().run("createTests").run("complexTests", new CustomTest() {
       @Override
       public void run() {
         Toast.makeText(MainActivity.this, "These are the contents of a more complex test",
             Toast.LENGTH_LONG).show();
       }
-    }, new DefinedTest() {
+    }, new CustomTest() {
       @Override
       public void run() {
         Toast.makeText(MainActivity.this, "These are the contents of another more complex test",

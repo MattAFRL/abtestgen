@@ -43,7 +43,9 @@ public class MixedTest {
       + "\nimport com.afewroosloose.abtesting.api.AbstractTest;" //
       + "\nimport java.lang.Override;" //
       + "\nimport java.lang.SuppressWarnings;" //
+      + "\nimport javax.annotation.Generated;" //
       + "\n" //
+      + "\n@Generated(\"com.afewroosloose.abtesting.compiler.ABTestProcessor\")"
       + "\n@SuppressWarnings(\"ResourceType, unused\")" //
       + "\npublic class Test$$Test1 extends AbstractTest {" //
       + "\n  private int numberOfTests;" //

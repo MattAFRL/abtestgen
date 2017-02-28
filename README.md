@@ -54,6 +54,3 @@ apt 'com.github.imperial-crystalline-recursion.abtestgen:ab-compiler:0.4'
 compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-annotations:0.4'
 compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-lib:0.4'
 ```
-##Build status
-![Build status](https://circleci.com/gh/imperial-crystalline-recursion/abtestgen.svg?style=shield&circle-token=02adbc662080afafe062fdd8ee467cafa703014b "Build status")
-

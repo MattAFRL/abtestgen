@@ -1,7 +1,10 @@
+import org.gradle.internal.jvm.Jvm
+
 apply plugin: 'java'
 apply plugin: 'maven'
 
 group='com.github.imperial-crystalline-recursion'
+version='0.4'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -22,7 +25,7 @@ dependencies {
   compile 'com.squareup:javapoet:1.7.0'
   testCompile 'junit:junit:4.12'
   testCompile 'com.google.testing.compile:compile-testing:0.9'
-  testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar()) //gradle kinda sucks so we need this
+  testCompile files(Jvm.current().getToolsJar()) //gradle kinda sucks so we need this
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -33,21 +36,3 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 artifacts {
   archives sourcesJar
 }
-
-Task task = task writePom {
-  pom {
-    project {
-      inceptionYear '2016'
-      version '0.3.1'
-      licenses {
-        license {
-          name 'The Apache Software License, Version 2.0'
-          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-          distribution 'repo'
-        }
-      }
-    }
-  }.writeTo("$buildDir/pom/pom.xml")
-}
-
-task.mustRunAfter(assemble)

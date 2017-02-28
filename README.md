@@ -50,7 +50,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 ```
 Then, you'll want to bang these bad boys into your `build.gradle`s' dependencies:
 ```groovy
-apt 'com.github.imperial-crystalline-recursion.abtestgen:ab-compiler:0.4'
-compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-annotations:0.4'
-compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-lib:0.4'
+apt 'com.github.imperial-crystalline-recursion.abtestgen:ab-compiler:0.4.1'
+compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-annotations:0.4.1'
+compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-lib:0.4.1'
 ```

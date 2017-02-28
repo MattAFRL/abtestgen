@@ -4,7 +4,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 group='com.github.imperial-crystalline-recursion'
-version='0.4'
+version='0.4.1'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7

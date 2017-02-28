@@ -91,7 +91,7 @@ public class ABTestProcessor extends AbstractProcessor {
     for (Element element : roundEnv.getElementsAnnotatedWith(TextTest.class)) {
       TextTest testAnnotation = element.getAnnotation(TextTest.class);
       if (element.getKind() != ElementKind.FIELD) {
-        throw new IllegalArgumentException("Can only run ABView tests on a field!");
+        messager.printMessage(Diagnostic.Kind.ERROR, "Can only run ABView tests on a field!");
       } else {
         TypeMirror typeMirror = element.asType();
         String type = typeMirror.toString();
@@ -108,7 +108,7 @@ public class ABTestProcessor extends AbstractProcessor {
     for (Element element : roundEnv.getElementsAnnotatedWith(ResourceTest.class)) {
       ResourceTest testAnnotation = element.getAnnotation(ResourceTest.class);
       if (element.getKind() != ElementKind.FIELD) {
-        throw new IllegalArgumentException("Can only run ABView tests on a field!");
+        messager.printMessage(Diagnostic.Kind.ERROR, "Can only run ABView tests on a field!");
       } else {
         TypeMirror typeMirror = element.asType();
         String type = typeMirror.toString();
@@ -167,6 +167,7 @@ public class ABTestProcessor extends AbstractProcessor {
     MethodSpec constructor = constructorBuilder.addModifiers(Modifier.PUBLIC).build();
     abstractTestClassBuilder.addMethod(constructor);
 
+    //we construct our test chooser method here
     MethodSpec.Builder runMethod = MethodSpec.methodBuilder("run") //
         .addModifiers(Modifier.PUBLIC) //
         .addAnnotation(Override.class) //
@@ -197,7 +198,7 @@ public class ABTestProcessor extends AbstractProcessor {
     try {
       javaFile.writeTo(filer);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
     }
   }
 
@@ -208,11 +209,9 @@ public class ABTestProcessor extends AbstractProcessor {
       if (data.getValues().length != numberOfParams) {
         messager.printMessage(Diagnostic.Kind.ERROR,
             "Each element in a test must have the same number of values!");
-        throw new RuntimeException("Each element in a test must have the same number of values!");
       }
       if (data.getElementAttachedTo().getModifiers().contains(Modifier.PRIVATE)) {
         messager.printMessage(Diagnostic.Kind.ERROR, "You can't annotate a private field!");
-        throw new RuntimeException("You can't annotate a private field!");
       }
     }
   }

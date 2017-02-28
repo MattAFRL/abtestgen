@@ -28,7 +28,7 @@ TextView thirdTextView;
 And that will generate a class which will create two tests that will cover those three TextViews. 
 
 
-There's also a `DefinedTest` class which allows you to define more complex tests that may not be possible to generate with the annotation processor.
+There's also a `CustomTest` class which allows you to define more complex tests that may not be possible to generate with the annotation processor.
 
 By default, tests will be weighted to have an equal chance to be selected. However, by extending the `TestPicker` class you can weight the tests however you like. 
 
@@ -50,10 +50,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 ```
 Then, you'll want to bang these bad boys into your `build.gradle`s' dependencies:
 ```groovy
-apt 'com.github.imperial-crystalline-recursion.abtestgen:ab-compiler:0.3.2'
-compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-annotations:0.3.2'
-compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-lib:0.3.2'
+apt 'com.github.imperial-crystalline-recursion.abtestgen:ab-compiler:0.4'
+compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-annotations:0.4'
+compile 'com.github.imperial-crystalline-recursion.abtestgen:ab-lib:0.4'
 ```
-##Build status
-![Build status](https://circleci.com/gh/imperial-crystalline-recursion/abtestgen.svg?style=shield&circle-token=02adbc662080afafe062fdd8ee467cafa703014b "Build status")
-

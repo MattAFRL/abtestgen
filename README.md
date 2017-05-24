@@ -4,7 +4,7 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-abtestgen-green.svg?style=true)](https://android-arsenal.com/details/1/4301)  [![](https://jitpack.io/v/imperial-crystalline-recursion/abtestgen.svg)](https://jitpack.io/#imperial-crystalline-recursion/abtestgen)
 
 
-##How it works 
+## How it works 
 Currently you can use two different annotations: `@TextTest` and `@ResourceTest`. `@TextTest` is for plugging Strings into a generated test; `@ResourceTest` is for plugging resource IDs. Example usage may be as follows:
 
 ```java
@@ -32,7 +32,7 @@ There's also a `CustomTest` class which allows you to define more complex tests 
 
 By default, tests will be weighted to have an equal chance to be selected. However, by extending the `TestPicker` class you can weight the tests however you like. 
 
-##To obtain...
+## To obtain...
 You'll want to include
 ```groovy
 maven { url "https://jitpack.io" }
